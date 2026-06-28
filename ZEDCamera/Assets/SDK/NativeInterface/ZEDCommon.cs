@@ -166,6 +166,33 @@ namespace sl
         NOT_AVAILABLE
     }
 
+    /// <summary>
+    /// Lists the available encoding presets for SVO recording.
+    /// </summary>
+    public enum SVO_ENCODING_PRESET
+    {
+        /// <summary>
+        ///  Encoder default. Maps to NVENC P4 / V4L2 default.
+        /// </summary>
+        DEFAULT,
+        /// <summary>
+        /// Fastest encoding, lowest quality. Maps to NVENC P1 / V4L2 ULTRAFAST.
+        /// </summary>
+        ULTRAFAST,
+        /// <summary>
+        /// Fast encoding. Maps to NVENC P2 / V4L2 FAST.
+        /// </summary>
+        FAST,
+        /// <summary>
+        /// Balanced speed/quality. Maps to NVENC P3 / V4L2 MEDIUM.
+        /// </summary>
+        MEDIUM,
+        /// <summary>
+        /// Slow encoding, higher quality. Maps to NVENC P5 / V4L2 SLOW.
+        /// </summary>
+        SLOW
+    };
+
     [StructLayout(LayoutKind.Sequential)]
     public struct DeviceProperties
     {
@@ -508,6 +535,23 @@ namespace sl
     /*******************************************************************************************************************************
      *******************************************************************************************************************************/
 
+
+    public enum LENS_DISTORTION_MODEL
+    {
+        /// <summary>
+        /// Radial-tangential (Brown-Conrady) distortion. Raw/unrectified parameters.
+        /// </summary>
+        RAN_TAN,
+        /// <summary>
+        /// Fisheye distortion. Raw/unrectified parameters.
+        /// </summary>
+        FISHEYE,
+        /// <summary>
+        /// Pinhole model, no distortion. Rectified parameters.
+        /// </summary>
+        PINHOLE
+    };
+
     /// <summary>
     /// Calibration information for an individual sensor on the ZED (left or right). </summary>
     /// <remarks>For more information, see:
@@ -558,7 +602,11 @@ namespace sl
         /// Real focal length in millimeters
         /// </summary>
         public float focalLengthMetric;
-
+        /// <summary>
+        /// Lens distortion model of these parameters.
+        ///  Raw/unrectified parameters are RAD_TAN or FISHEYE, rectified parameters are PINHOLE.
+        /// </summary>
+        public LENS_DISTORTION_MODEL lensDistortionModel;
     };
 
     /// <summary>
@@ -1271,7 +1319,7 @@ namespace sl
         /// Left BGRA unrectified image. Each pixel contains 4 unsigned char (B, G, R, A).
         ///\n Type: sl.MAT_TYPE.MAT_8U_C4.
         /// </summary>
-        LEFT_UNRECTIFIED,
+        LEFT_UNRECTIFIED = 6,
         /// <summary>
         /// Right BGRA unrectified image. Each pixel contains 4 unsigned char (B, G, R, A).
         ///\n Type: sl.MAT_TYPE.MAT_8U_C4.
